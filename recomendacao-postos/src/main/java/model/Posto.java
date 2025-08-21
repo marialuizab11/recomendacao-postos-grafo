@@ -4,18 +4,21 @@ package model;
  * Herda de vertice, representa um posto de gasolina (um ponto no mapa)
  */
 public class Posto extends Vertice {
-    int id;
-    String nome;
-    double precoGasolina;
+    private double precoGasolina;
+    private Localizacao localizacao;
     
-    @Override
-    public int getId() {
-        return this.id;
+    public Posto(String id, String nome, double precoGasolina, Localizacao localizacao){
+        super(id, nome);
+        this.precoGasolina = precoGasolina;
+        this.localizacao = localizacao;
     }
-
-    @Override
-    public String getNome() {
-        return this.nome;
+    
+    public double getPrecoGasolina(){
+        return precoGasolina;
+    }
+    
+    public Localizacao getLocalizacao(){
+        return localizacao;
     }
     
 }

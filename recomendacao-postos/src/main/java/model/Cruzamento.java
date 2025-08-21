@@ -5,14 +5,7 @@ package model;
  */
 public class Cruzamento extends Vertice{
 
-    @Override
-    public int getId() {
-        return id;
+    public Cruzamento(String id, String nome){
+        super(id, nome);
     }
-
-    @Override
-    public String getNome() {
-        return nome;
-    }
-
 }
