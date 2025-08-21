@@ -2,7 +2,7 @@ package model;
 
 import java.util.Objects;
 /**
- * Base para todos os pontos (vértice) do mapa
+ * Classe abstrata que serve como base para todos os tipos de ponto no grafo.
  */
 public abstract class Vertice implements Localizavel {
     String id;
@@ -23,6 +23,7 @@ public abstract class Vertice implements Localizavel {
         return nome;
     }
     
+    /* Compara este Vértice com outro objeto para determinar se são funcionalmente iguais, baseando-se no ID. */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -31,6 +32,7 @@ public abstract class Vertice implements Localizavel {
         return Objects.equals(id, vertice.id);
     }
 
+    /* Gera um código numérico (hash) para o objeto. */
     @Override
     public int hashCode() {
         return Objects.hash(id);

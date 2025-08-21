@@ -2,7 +2,8 @@
 package model;
 
 /*
-    Contrato de tudo que pode ser localizável no mapa
+ * Interface que define o contrato para qualquer objeto que possa ser
+ * representado como um ponto localizável no grafo (mapa).
 */
 public interface Localizavel {
     String getId();

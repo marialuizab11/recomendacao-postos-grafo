@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Herda de vértice, representa um cruzamento no mapa (um ponto)
+ * Representa um cruzamento no mapa (um vertice), é usado como um ponto de conexão entre ruas.
  */
 public class Cruzamento extends Vertice{
 

@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Herda de vertice, representa um posto de gasolina (um ponto no mapa)
+ * Representa um posto de gasolina (um vertice) e armazena suas informações.
  */
 public class Posto extends Vertice {
     private double precoGasolina;
