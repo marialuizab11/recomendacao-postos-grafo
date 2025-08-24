@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+
 package model;
 
-/**
- *
- * @author malub
- */
+/*
+ * Interface que define o contrato para qualquer objeto que possa ser
+ * representado como um ponto localizável no grafo (mapa).
+*/
 public interface Localizavel {
-    
+    String getId();
+    String getNome();
 }
