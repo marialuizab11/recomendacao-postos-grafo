@@ -24,6 +24,16 @@ public class Rua {
         return pontoB;
     }
 
+    //Dado um ponto da rua, retorna o ponto que está na outra extremidade.
+    public Localizavel getVizinho(Localizavel pontoAtual) {
+        if (pontoAtual.equals(pontoA)) {
+            return pontoB;
+        } else if (pontoAtual.equals(pontoB)) {
+            return pontoA;
+        }
+        return null; // Ou lançar uma exceção se o ponto não pertencer à rua
+    }
+
     public double getDistanciaKm() {
         return distanciaKm;
     }

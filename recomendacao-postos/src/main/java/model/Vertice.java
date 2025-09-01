@@ -37,4 +37,9 @@ public abstract class Vertice implements Localizavel {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return this.nome; // Ou getNome(), o resultado é o mesmo.
+    }
 }
