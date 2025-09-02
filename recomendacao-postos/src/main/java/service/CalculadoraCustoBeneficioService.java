@@ -15,30 +15,31 @@ import java.util.*;
  */
 public class CalculadoraCustoBeneficioService {
     private final List<Posto> postos;
-    //private final DijstraExecutador dijstraExecutador;
+    private final DijkstraExecutor dijkstraExecutor;
+    private final Grafo grafo;
     
-    public CalculadoraCustoBeneficioService(Grafo grafo){
-        //this.dijkstraExecutador = new DijkstraExecutador();
-        this.postos = carregarPostosJson();
+    public CalculadoraCustoBeneficioService(Grafo grafo, List<Posto> listaPostos){
+        this.grafo = grafo;
+        this.dijkstraExecutor = new DijkstraExecutor();
+        this.postos = listaPostos;
     }
     
     /* Calcula e ordena as melhores opções de abastecimento */
-/*
-    public List<OpcaoRecomendada> calcularMelhoresOpcoes(Localizavel localizavel){
+    public List<OpcaoRecomendada> calcularMelhoresOpcoes(Localizavel partida, Localizavel destino, Veiculo veiculo, double litrosParaAbastecer, double precoMedioCombustivel){
         List<OpcaoRecomendada> recomendacoes = new ArrayList<>();
         
         for (Posto posto : postos){
-            double custoIda = dijkstraExecutador.calcularMenorCusto(partida, posto, veiculo, precoMedioCombustivel);
-            double custoVolta = dijkstraExecutador.calcularMenorCusto(posto, destino, veiculo, precoMedioCombustivel);
+            double custoIda = dijkstraExecutor.calcularMenorCusto(grafo, (Vertice) partida, (Vertice) posto, veiculo, precoMedioCombustivel);
+            double custoVolta = dijkstraExecutor.calcularMenorCusto(grafo, (Vertice) posto, (Vertice) destino, veiculo, precoMedioCombustivel);
         
-            Se o posto é inalcançável a partir da partida ou não leva ao destino, pula para o próximo
+            //Se o posto é inalcançável a partir da partida ou não leva ao destino, pula para o próximo
             if (custoIda == Double.POSITIVE_INFINITY || custoVolta == Double.POSITIVE_INFINITY) {
                 continue;
             }
             
             double custoTrajeto = custoIda + custoVolta;;;
             
-            double custoAbastecimento = listroParaAbastecer * posto.getPrecoGasolina();
+            double custoAbastecimento = litrosParaAbastecer * posto.getPrecoGasolina();
             
             double custoTotal = custoTrajeto + custoAbastecimento;
             
@@ -47,17 +48,5 @@ public class CalculadoraCustoBeneficioService {
         }
         recomendacoes.sort(Comparator.comparing(OpcaoRecomendada::getCustoTotal));
         return recomendacoes;        
-    }
-*/
-    
-    /* Carrega a lista de postos do arquivo Json */
-    private List<Posto> carregarPostosJson(){
-        try(Reader reader = new FileReader("postos-gasolina.json")){
-            Type listType = new TypeToken<ArrayList<Posto>>(){}.getType();
-            return new Gson().fromJson(reader, listType);
-        } catch (Exception e){
-            System.out.println("Erro ao ler arquivo");;
-            return new ArrayList<>();
-        }
     }
 }
