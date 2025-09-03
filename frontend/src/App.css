@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Fundo e Texto (Mantidos para alto contraste) */
+    --background: 240 10% 98%; 
+    --foreground: 240 5% 13%;
+
+    /* Cards e Popups (Mantidos) */
+    --card: 240 10% 98%;
+    --card-foreground: 240 5% 13%;
+    --popover: 240 10% 98%;
+    --popover-foreground: 240 5% 13%;
+
+    --primary: 217 91% 90%; 
+    --primary-foreground: 217 30% 35%; 
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 5% 13%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 142 70% 88%; 
+    --accent-foreground: 142 50% 25%; 
+
+    --destructive: 354 70% 90%; 
+    --destructive-foreground: 354 50% 30%; 
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 217 91% 80%; 
+
+    --radius: 0.5rem;
+  }
+
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
