@@ -1,0 +1,17 @@
+model\OpcaoRecomendada.class
+MainTest.class
+model\Localizavel.class
+app\ApiServer.class
+model\Veiculo.class
+model\Vertice.class
+model\Rua.class
+model\DijkstraExecutor.class
+data\DataLoader$1.class
+service\CalculadoraCustoBeneficioService.class
+dto\RequisicaoCalculoDTO.class
+model\Localizacao.class
+model\Cruzamento.class
+data\DataLoader.class
+model\DijkstraExecutor$ResultadoDijkstra.class
+model\Grafo.class
+model\Posto.class
