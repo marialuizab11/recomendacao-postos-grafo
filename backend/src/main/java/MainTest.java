@@ -8,9 +8,10 @@ import model.DijkstraExecutor;
 public class MainTest {
 
     public static void main(String[] args) {
+        /*
         Grafo mapa = new Grafo();
         Posto postoA = new Posto("pA", "Posto A (Origem)", 5.50, null);
-        Posto postoB = new Posto("pB", "Posto B (Destino)", 5.40, null);
+        Posto postoB = new Posto("pB", "Posto B (Destino)", 5.40, null);;
         mapa.adicionarRua(postoA, new Cruzamento("c1", "Cruzamento 1"), 2.0, "Rua Alfa");
         mapa.adicionarRua(new Cruzamento("c1", "Cruzamento 1"), postoB, 3.0, "Rua Beta");
         mapa.adicionarRua(postoA, postoB, 8.0, "Avenida Principal");
@@ -36,5 +37,6 @@ public class MainTest {
         } else {
             System.out.println("Não foi encontrado um caminho entre a origem e o destino.");
         }
+*/
     }
 }
