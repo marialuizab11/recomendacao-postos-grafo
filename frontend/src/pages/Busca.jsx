@@ -114,11 +114,11 @@ const Busca = () => {
         </div>
       </header>
       
-      <main className="max-w-xl mx-auto px-4 py-8">
+      <main className="max-w-xl mx-auto px-4 py-4">
         
-        {/* Card de Info do Veículo (reintroduzido para melhor UX) */}
+        {/* Card de Info do Veículo */}
         <Card className="mb-8 bg-secondary border-secondary">
-          <CardContent className="pt-6 flex items-center gap-4">
+          <CardContent className="py-1 flex items-center gap-4">
               <Car className="w-8 h-8 text-primary" />
               <div className="flex-1">
                 <h3 className="font-semibold text-secondary-foreground">Seu Veículo</h3>
@@ -151,7 +151,7 @@ const Busca = () => {
                 <Input
                   id="partida"
                   type="text"
-                  placeholder="Digite seu local de partida (Ex: P01)"
+                  placeholder="Digite seu local de partida (Ex: UFAPE)"
                   value={formData.idPartida}
                   onChange={(e) => handleInputChange('idPartida', e.target.value)}
                 />
@@ -168,7 +168,7 @@ const Busca = () => {
                 <Input
                   id="destino"
                   type="text"
-                  placeholder="Digite seu destino (Ex: P03)"
+                  placeholder="Digite seu destino (Ex: Av. São Sebastião)"
                   value={formData.idDestino}
                   onChange={(e) => handleInputChange('idDestino', e.target.value)}
                 />

@@ -1,46 +1,46 @@
-@import "tailwindcss";
+/* src/App.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Paleta de Cores - Tema Claro (Verde-Azulado Fresco) */
 
 @layer base {
   :root {
-    /* Fundo e Texto (Mantidos para alto contraste) */
-    --background: 240 10% 98%; 
-    --foreground: 240 5% 13%;
+    /* Fundo e texto principal */
+    --background: 210 20% 98%;    /* Cinza muito claro, quase branco */
+    --foreground: 215 25% 15%;    /* Cinza escuro para o texto */
 
-    /* Cards e Popups (Mantidos) */
-    --card: 240 10% 98%;
-    --card-foreground: 240 5% 13%;
-    --popover: 240 10% 98%;
-    --popover-foreground: 240 5% 13%;
+    /* Cards e pop-ups */
+    --card: 0 0% 100%;            /* Branco puro */
+    --card-foreground: 215 25% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
 
-    --primary: 217 91% 90%; 
-    --primary-foreground: 217 30% 35%; 
+    /* Cor primária (Verde-Azulado/Aqua) */
+    --primary: 180 70% 45%;       /* Um tom vibrante e fresco entre azul e verde */
+    --primary-foreground: 0 0% 100%; /* Texto branco para contraste no primário */
 
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 5% 13%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
+    /* Cores secundárias e de texto "muted" */
+    --secondary: 210 15% 94%;     /* Cinza claro */
+    --secondary-foreground: 215 15% 35%; /* Cinza médio */
+    --muted: 210 15% 94%;
+    --muted-foreground: 215 10% 45%;
 
-    --accent: 142 70% 88%; 
-    --accent-foreground: 142 50% 25%; 
+    /* Cor de destaque (Verde Menta suave) */
+    --accent: 150 70% 80%;        /* Um verde mais suave e claro */
+    --accent-foreground: 150 40% 20%; /* Verde escuro para contraste no accent */
 
-    --destructive: 354 70% 90%; 
-    --destructive-foreground: 354 50% 30%; 
+    /* Cor de ações destrutivas (vermelho mais contido) */
+    --destructive: 0 72% 66%;
+    --destructive-foreground: 0 50% 10%;
 
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 217 91% 80%; 
+    /* Bordas e inputs */
+    --border: 210 15% 88%;        /* Cinza claro para bordas */
+    --input: 210 15% 88%;
+    --ring: 180 70% 35%;          /* Um pouco mais escuro que o primary */
 
     --radius: 0.5rem;
-  }
-
-}
-
-@layer base {
-  * {
-    border-color: var(--border);
-  }
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
   }
 }

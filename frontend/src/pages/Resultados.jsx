@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, ArrowLeft, MapPin, DollarSign, Route, Award } from 'lucide-react';
+import { ExternalLink, ArrowLeft, MapPin, DollarSign, Route, Award, TrendingDown, Navigation, Fuel } from 'lucide-react';
 import '../App.css';
 import carrinhoLoadingGif from '../assets/carrinho.gif';
 
@@ -55,6 +55,7 @@ const Resultados = () => {
   };
 
   const melhoresResultados = resultados.slice(0, 4);
+  const custoMaisCaro = melhoresResultados.length > 0 ? melhoresResultados[melhoresResultados.length - 1].custoTotal : 0;
 
   if (isVisualLoading){
      return (
@@ -75,7 +76,7 @@ const Resultados = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-card shadow-sm bg-primary/5 border-b">
+      <div className="shadow-sm bg-primary/5 border-b">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button variant="outline" size="sm" onClick={handleNovaConsulta} className="flex items-center gap-2">
@@ -91,17 +92,20 @@ const Resultados = () => {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Lista de Postos */}
         <div className="space-y-6">
-          {melhoresResultados.map((resultado, index) => (
+          { melhoresResultados.map((resultado, index) => {
+            const economia = custoMaisCaro - resultado.custoTotal;
+
+            return(
             <Card 
               key={resultado.posto.id} 
               className={`transition-all duration-200 hover:shadow-lg ${
                 index === 0 
-                  ? 'border-accent/50 bg-accent/10' // Estilo da melhor opção usando a cor de sucesso
+                  ? 'border-accent/50 bg-accent/5' // Estilo da melhor opção usando a cor de sucesso
                   : 'border bg-card'                 // Estilo padrão usando cores do tema
               }`}
             >
               <CardHeader>
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-4">
                   <div>
                     {index === 0 && (
                       // Badge usa a cor de sucesso (--accent)
@@ -122,48 +126,62 @@ const Resultados = () => {
                       R$ {resultado.custoTotal.toFixed(2)}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      Custo Total da Viagem
+                      Gasolina: R${resultado.posto.precoGasolina}/L
                     </div>
                   </div>
                 </div>
               </CardHeader>
               
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  
+                  <div className="flex items-center gap-3 p-4 bg-primary/10 rounded-lg">
+                    <TrendingDown className="w-6 h-6 text-accent-foreground/80" />
+                    <div>
+                      <p className="text-sm text-accent-foreground/80 font-medium">Economia</p>
+                      <p className="text-lg font-bold text-accent-foreground">
+                        R$ {economia.toFixed(2)}
+                      </p>
+                      <p className="text-xs text-accent-foreground/60">vs. Posto mais caro</p>
+                    </div>
+                  </div>
                   {/* Custo do Trajeto */}
                   <div className="flex items-center gap-3 p-4 bg-primary/10 rounded-lg">
                     <Route className="w-6 h-6 text-primary" />
                     <div>
-                      <p className="text-sm text-primary font-medium">Custo do Deslocamento</p>
-                      <p className="text-lg font-bold text-primary/90">
+                      <p className="text-sm text-primary/80 font-medium">Custo do Trajeto</p>
+                      <p className="text-lg font-bold text-primary">
                         R$ {resultado.custoTrajeto.toFixed(2)}
                       </p>
+                      <p className="text-xs text-primary/60">Ida e volta</p>
                     </div>
                   </div>
-                  
-                  {/* Custo do Abastecimento */}
-                  <div className="flex items-center gap-3 p-4 bg-accent/10 rounded-lg">
-                    <DollarSign className="w-6 h-6 text-accent" />
+                
+                  <div className="flex items-center gap-3 p-4 bg-destructive/10 rounded-lg">
+                    <Fuel className="w-6 h-6 text-destructive" />
                     <div>
-                      <p className="text-sm text-accent font-medium">Custo do Abastecimento</p>
-                      <p className="text-lg font-bold text-accent/90">
+                      <p className="text-sm text-destructive font-medium">Custo Abastecimento</p>
+                      <p className="text-lg font-bold text-destructive/90">
                         R$ {resultado.custoAbastecimento.toFixed(2)}
                       </p>
+                      <p className="text-xs text-muted-foreground">Valor do combustível</p>
                     </div>
                   </div>
-
-                  {/* Botão principal já usa a cor --primary por padrão */}
+                </div>
+              </CardContent>
+                <CardContent>
                   <Button 
                     onClick={() => handleIrParaTrajeto(resultado.posto)}
-                    className="w-full md:col-span-2" // Sem classes de cor, ele pega o padrão do tema
+                    className="w-full md:col-span-2" 
                   >
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Ir para o Trajeto no Google Maps
                   </Button>
-                </div>
-              </CardContent>
+                </CardContent>              
             </Card>
-          ))}
+            )
+          })
+        }
         </div>
       </div>
     </div>
