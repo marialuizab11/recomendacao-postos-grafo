@@ -15,8 +15,8 @@ const Busca = () => {
   const { userData, isConfigured } = useUser();
 
   const [formData, setFormData] = useState({
-    idPartida: '', 
-    idDestino: '',
+    enderecoPartida: '', 
+    enderecoDestino: '',
     litrosParaAbastecer: '',
   });
 
@@ -32,16 +32,16 @@ const Busca = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.idPartida || !formData.idPartida.trim()) {
-      newErrors.idPartida = 'O local de partida é obrigatório.';
+    if (!formData.enderecoPartida || !formData.enderecoPartida.trim()) {
+      newErrors.enderecoPartida = 'O local de partida é obrigatório.';
     }
     
-    if (!formData.idDestino || !formData.idDestino.trim()) {
-      newErrors.idDestino = 'O local de destino é obrigatório.';
+    if (!formData.enderecoDestino || !formData.enderecoDestino.trim()) {
+      newErrors.enderecoDestino = 'O local de destino é obrigatório.';
     }
     
-    if (formData.idPartida && formData.idPartida.trim() === formData.idDestino.trim()) {
-      newErrors.idDestino = 'O destino deve ser diferente da partida.';
+    if (formData.enderecoPartida && formData.enderecoPartida.trim() === formData.enderecoDestino.trim()) {
+      newErrors.enderecoDestino = 'O destino deve ser diferente da partida.';
     }
     
     const quantidade = parseFloat(formData.litrosParaAbastecer);
@@ -66,8 +66,8 @@ const Busca = () => {
     
     try {
       const dadosDaBusca = {
-        idPartida: formData.idPartida,
-        idDestino: formData.idDestino,
+        enderecoPartida: formData.enderecoPartida,
+        enderecoDestino: formData.enderecoDestino,
         autonomiaKmL: userData.consumo,
         litrosParaAbastecer: parseFloat(formData.litrosParaAbastecer)
       };
@@ -152,11 +152,11 @@ const Busca = () => {
                   id="partida"
                   type="text"
                   placeholder="Digite seu local de partida (Ex: UFAPE)"
-                  value={formData.idPartida}
-                  onChange={(e) => handleInputChange('idPartida', e.target.value)}
+                  value={formData.enderecoPartida}
+                  onChange={(e) => handleInputChange('enderecoPartida', e.target.value)}
                 />
                 {/* ALTERAÇÃO: Mensagem de erro usa a cor de perigo (vermelho) do tema */}
-                {errors.idPartida && <p className="text-sm text-destructive mt-1">{errors.idPartida}</p>}
+                {errors.enderecoPartida && <p className="text-sm text-destructive mt-1">{errors.enderecoPartida}</p>}
               </div>
 
               <div className="space-y-2">
@@ -168,11 +168,11 @@ const Busca = () => {
                 <Input
                   id="destino"
                   type="text"
-                  placeholder="Digite seu destino (Ex: Av. São Sebastião)"
-                  value={formData.idDestino}
-                  onChange={(e) => handleInputChange('idDestino', e.target.value)}
+                  placeholder="Digite seu destino (Ex: Rua São Sebastião)"
+                  value={formData.enderecoDestino}
+                  onChange={(e) => handleInputChange('enderecoDestino', e.target.value)}
                 />
-                {errors.idDestino && <p className="text-sm text-destructive mt-1">{errors.idDestino}</p>}
+                {errors.enderecoDestino && <p className="text-sm text-destructive mt-1">{errors.enderecoDestino}</p>}
               </div>
               
               <div className="space-y-2">

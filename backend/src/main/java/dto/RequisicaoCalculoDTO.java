@@ -4,17 +4,17 @@ package dto;
  * Representa os dados da requisição que chegam do frontend para cálculo da rota.
  */
 public class RequisicaoCalculoDTO {
-    private String idPartida;
-    private String idDestino;
+    private String enderecoPartida;
+    private String enderecoDestino;
     private double autonomiaKmL;
     private double litrosParaAbastecer;
     
-    public String getIdPartida(){
-        return idPartida;
+    public String getEnderecoPartida(){
+        return enderecoPartida;
     }
     
-    public String getIdDestino(){
-        return idDestino;
+    public String getEnderecoDestino(){
+        return enderecoDestino;
     }
     
     public double getAutonomiaKmL() {
