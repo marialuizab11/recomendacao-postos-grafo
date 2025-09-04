@@ -1,5 +1,6 @@
 package model;
 
+import app.ApiServer;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -38,4 +39,33 @@ public class Grafo {
     public Set<Vertice> getVertices() {
         return adjacencias.keySet();
     }
+    
+    /*Encontra o vértice no grafo que está geograficamente mais próximo das coordenadas fornecidas.*/
+    public Vertice encontrarVerticeMaisProximo(Localizacao coordenadas) {
+        if (adjacencias.isEmpty()) {
+            return null;
+        }
+
+        Vertice verticeMaisProximo = null;
+        double menorDistancia = Double.POSITIVE_INFINITY;
+
+        // Itera por todos os vértices do grafo
+        for (Localizavel local : adjacencias.keySet()) {
+            if (local instanceof Vertice) {
+                Vertice verticeAtual = (Vertice) local;
+                // Calcula a distância em linha reta entre as coordenadas do usuário e o vértice atual
+                double distancia = ApiServer.calcularDistanciaHaversine(
+                        coordenadas.getLatitude(), coordenadas.getLongitude(),
+                        verticeAtual.getLocalizacao().getLatitude(), verticeAtual.getLocalizacao().getLongitude()
+                );
+
+                // Se encontrarmos uma distância menor, atualizamos nosso candidato a "mais próximo"
+                if (distancia < menorDistancia) {
+                    menorDistancia = distancia;
+                    verticeMaisProximo = verticeAtual;
+                }
+            }
+        }
+    return verticeMaisProximo;
+}
 }

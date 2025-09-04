@@ -3,6 +3,7 @@ package app;
 import io.javalin.Javalin;
 import dto.RequisicaoCalculoDTO;
 import data.DataLoader;
+import dto.RespostaCalculoDTO;
 import service.CalculadoraCustoBeneficioService;
 import model.*;
 import io.javalin.http.HttpStatus;
@@ -10,6 +11,7 @@ import io.javalin.http.HttpStatus;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import service.GeocodingService;
 
 
 /**
@@ -45,14 +47,15 @@ public class ApiServer {
 
         app.post("/calcular-rota", ctx -> {
             try{
+                GeocodingService geocodingService = new GeocodingService();
                 RequisicaoCalculoDTO requisicao = ctx.bodyAsClass(RequisicaoCalculoDTO.class);
                 
-                Localizavel partida = encontrarLocalizavelPorId(requisicao.getIdPartida(), postos);
-                Localizavel destino = encontrarLocalizavelPorId(requisicao.getIdDestino(), postos);
+                Localizacao coordsPartida = geocodingService.getCoordenadas(requisicao.getEnderecoPartida());
+                Localizacao coordsDestino = geocodingService.getCoordenadas(requisicao.getEnderecoDestino());
                 
-                if (partida == null || destino == null) {
+                if (coordsPartida == null || coordsDestino == null) {
                     ctx.status(HttpStatus.BAD_REQUEST);
-                    ctx.json(Map.of("erro", "ID de partida ou destino não encontrado. IDs válidos: P01, P02, etc."));
+                    ctx.json(Map.of("erro", "Coordenadas do endereço não encontradas"));
                     return;
                 }
                 
@@ -60,14 +63,15 @@ public class ApiServer {
                 double precoMedio = 5.90; 
 
                 List<OpcaoRecomendada> resultado = calculadoraService.calcularMelhoresOpcoes(
-                    partida,
-                    destino,
+                    coordsPartida,
+                    coordsDestino,
                     veiculo,
                     requisicao.getLitrosParaAbastecer(),
                     precoMedio
                 );
+                RespostaCalculoDTO respostaCompleta = new RespostaCalculoDTO(coordsPartida, coordsDestino, resultado);
                 ctx.status(HttpStatus.OK);
-                ctx.json(resultado);
+                ctx.json(respostaCompleta);
                 
             } catch (Exception e) {
                 ctx.status(HttpStatus.BAD_REQUEST);
@@ -75,20 +79,30 @@ public class ApiServer {
             }
         });
         
+        GeocodingService geocodingService = new GeocodingService();
+        
+        app.get("/pega-coordenadas", ctx -> {
+            String endereco = ctx.queryParam("endereco");
+            
+            if (endereco == null || endereco.isBlank()){
+                ctx.status(HttpStatus.BAD_REQUEST).json(Map.of("erro", "O parametro endereco está vazio ou inválido"));
+                return;
+            }
+            
+            Localizacao coordenadas = geocodingService.getCoordenadas(endereco);
+            
+            if(coordenadas != null){
+                ctx.status(HttpStatus.OK).json(coordenadas);                
+            } else {
+                ctx.status(HttpStatus.NOT_FOUND).json(Map.of("erro", "Endereço não encontrado."));
+            }   
+        });
+        
         System.out.println("Iniciando o servidor na porta 7070...");
         app.start(7070);
         System.out.println("Servidor iniciado!");
     }
     
-    /**
-     * Encontra um Posto na nossa lista de dados pelo ID.
-     */
-    private static Localizavel encontrarLocalizavelPorId(String id, List<Posto> postos) {
-        return postos.stream()
-                     .filter(p -> p.getId().equalsIgnoreCase(id))
-                     .findFirst()
-                     .orElse(null);
-    }
 
     /**
      * Cria um grafo simples contendo apenas os postos, com arestas (Ruas)
@@ -118,7 +132,7 @@ public class ApiServer {
     /**
      * Calcula a distância em linha reta (as-the-crow-flies) entre dois pontos de coordenadas.
      */
-    private static double calcularDistanciaHaversine(double lat1, double lon1, double lat2, double lon2) {
+    public static double calcularDistanciaHaversine(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371; // Raio da Terra em km
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);

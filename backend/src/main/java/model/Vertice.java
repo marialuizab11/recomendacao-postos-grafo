@@ -5,12 +5,18 @@ import java.util.Objects;
  * Classe abstrata que serve como base para todos os tipos de ponto no grafo.
  */
 public abstract class Vertice implements Localizavel {
-    String id;
-    String nome;
+    private String id;
+    private String nome;
+    private Localizacao localizacao;
     
-    public Vertice(String id, String nome){
+    public Vertice(String id, String nome, Localizacao localizacao){
         this.id = id;
         this.nome = nome;
+        this.localizacao = localizacao;
+    }
+    
+    public Localizacao getLocalizacao() {
+        return localizacao;
     }
     
     @Override

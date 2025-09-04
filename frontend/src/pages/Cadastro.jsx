@@ -61,7 +61,7 @@ const Cadastro = () => {
 
     setTimeout(() => {
       navigate("/busca");
-    }, 1500); // Redireciona após 1.5s
+    }, 1000); // Redireciona após 1.5s
   };
 
   const handleSkipToBusca = () => {
@@ -118,7 +118,6 @@ const Cadastro = () => {
                   value={formData.consumo}
                   onChange={(e) => handleInputChange("consumo", e.target.value)}
                 />
-                {/* ALTERAÇÃO: Mensagem de erro usa a cor de perigo do tema */}
                 {errors.consumo && (
                   <div className="flex items-center gap-1 text-sm text-destructive">
                     <AlertCircle className="w-4 h-4" />
@@ -131,7 +130,6 @@ const Cadastro = () => {
               </div>
 
               <div className="space-y-3 pt-4">
-                {/* ALTERAÇÃO: Botão principal usa a cor primária do tema por padrão */}
                 <Button
                   type="submit"
                   className="w-full"

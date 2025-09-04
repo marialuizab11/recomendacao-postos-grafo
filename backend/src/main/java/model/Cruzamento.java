@@ -5,7 +5,7 @@ package model;
  */
 public class Cruzamento extends Vertice{
 
-    public Cruzamento(String id, String nome){
-        super(id, nome);
+    public Cruzamento(String id, String nome, Localizacao localizacao){
+        super(id, nome, localizacao);
     }
 }

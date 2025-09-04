@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { calcularMelhorRota } from '../services/api.js';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,13 +15,12 @@ const Busca = () => {
   const { userData, isConfigured } = useUser();
 
   const [formData, setFormData] = useState({
-    idPartida: '', 
-    idDestino: '',
+    enderecoPartida: '', 
+    enderecoDestino: '',
     litrosParaAbastecer: '',
   });
 
   const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!isConfigured) {
@@ -32,16 +31,16 @@ const Busca = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.idPartida || !formData.idPartida.trim()) {
-      newErrors.idPartida = 'O local de partida é obrigatório.';
+    if (!formData.enderecoPartida || !formData.enderecoPartida.trim()) {
+      newErrors.enderecoPartida = 'O local de partida é obrigatório.';
     }
     
-    if (!formData.idDestino || !formData.idDestino.trim()) {
-      newErrors.idDestino = 'O local de destino é obrigatório.';
+    if (!formData.enderecoDestino || !formData.enderecoDestino.trim()) {
+      newErrors.enderecoDestino = 'O local de destino é obrigatório.';
     }
     
-    if (formData.idPartida && formData.idPartida.trim() === formData.idDestino.trim()) {
-      newErrors.idDestino = 'O destino deve ser diferente da partida.';
+    if (formData.enderecoPartida && formData.enderecoPartida.trim() === formData.enderecoDestino.trim()) {
+      newErrors.enderecoDestino = 'O destino deve ser diferente da partida.';
     }
     
     const quantidade = parseFloat(formData.litrosParaAbastecer);
@@ -56,46 +55,39 @@ const Busca = () => {
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: null }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     
-    setIsLoading(true);
-    
-    try {
-      const dadosDaBusca = {
-        idPartida: formData.idPartida,
-        idDestino: formData.idDestino,
-        autonomiaKmL: userData.consumo,
-        litrosParaAbastecer: parseFloat(formData.litrosParaAbastecer)
-      };
+     const dadosDaBusca = {
+      enderecoPartida: formData.enderecoPartida,
+      enderecoDestino: formData.enderecoDestino,
+      autonomiaKmL: userData.consumo,
+      litrosParaAbastecer: parseFloat(formData.litrosParaAbastecer)
+    };
 
-      const recomendacoes = await calcularMelhorRota(dadosDaBusca);
-
-      console.log(recomendacoes);
-      navigate('/resultados', {
-        state: {
-          resultados: recomendacoes,
-          searchData: dadosDaBusca
-        }
-      });
-      
-    } catch (error) {
-      console.error('Erro ao buscar postos:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    navigate('/resultados', {
+      state: {
+        searchData: dadosDaBusca
+      }
+    });
   };
 
   const handleConfigureVehicle = () => navigate('/cadastro');
 
+  if (!isConfigured) {
+    return null; 
+  }
+
   return (
-    // ALTERAÇÃO: Usando a cor de fundo do tema (--background)
     <div className="min-h-screen bg-background">
       
-      {/* Header (reintroduzido para uma melhor UI) */}
+      {/* Header */}
       <header className="bg-primary/5 border-b">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -114,11 +106,11 @@ const Busca = () => {
         </div>
       </header>
       
-      <main className="max-w-xl mx-auto px-4 py-8">
+      <main className="max-w-xl mx-auto px-4 py-4">
         
-        {/* Card de Info do Veículo (reintroduzido para melhor UX) */}
+        {/* Card de Info do Veículo */}
         <Card className="mb-8 bg-secondary border-secondary">
-          <CardContent className="pt-6 flex items-center gap-4">
+          <CardContent className="py-1 flex items-center gap-4">
               <Car className="w-8 h-8 text-primary" />
               <div className="flex-1">
                 <h3 className="font-semibold text-secondary-foreground">Seu Veículo</h3>
@@ -144,40 +136,37 @@ const Busca = () => {
               
               <div className="space-y-2">
                 <Label htmlFor="partida" className="flex items-center gap-2">
-                  {/* ALTERAÇÃO: Ícone usa a cor de sucesso (verde) do tema */}
+                  
                   <Navigation className="w-4 h-4 text-accent" />
                   Local de Partida
                 </Label>
                 <Input
                   id="partida"
                   type="text"
-                  placeholder="Digite seu local de partida (Ex: P01)"
-                  value={formData.idPartida}
-                  onChange={(e) => handleInputChange('idPartida', e.target.value)}
+                  placeholder="Digite seu local de partida (Ex: UFAPE)"
+                  value={formData.enderecoPartida}
+                  onChange={(e) => handleInputChange('enderecoPartida', e.target.value)}
                 />
-                {/* ALTERAÇÃO: Mensagem de erro usa a cor de perigo (vermelho) do tema */}
-                {errors.idPartida && <p className="text-sm text-destructive mt-1">{errors.idPartida}</p>}
+                {errors.enderecoPartida && <p className="text-sm text-destructive mt-1">{errors.enderecoPartida}</p>}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="destino" className="flex items-center gap-2">
-                  {/* ALTERAÇÃO: Ícone usa a cor de perigo (vermelho) do tema */}
                   <MapPin className="w-4 h-4 text-destructive" />
                   Local de Destino
                 </Label>
                 <Input
                   id="destino"
                   type="text"
-                  placeholder="Digite seu destino (Ex: P03)"
-                  value={formData.idDestino}
-                  onChange={(e) => handleInputChange('idDestino', e.target.value)}
+                  placeholder="Digite seu destino (Ex: Rua São Sebastião)"
+                  value={formData.enderecoDestino}
+                  onChange={(e) => handleInputChange('enderecoDestino', e.target.value)}
                 />
-                {errors.idDestino && <p className="text-sm text-destructive mt-1">{errors.idDestino}</p>}
+                {errors.enderecoDestino && <p className="text-sm text-destructive mt-1">{errors.enderecoDestino}</p>}
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="litros" className="flex items-center gap-2">
-                  {/* ALTERAÇÃO: Ícone usa a cor primária (azul) do tema */}
                   <Fuel className="w-4 h-4 text-primary" />
                   Quantidade a Abastecer (Litros)
                 </Label>
@@ -192,10 +181,8 @@ const Busca = () => {
                 />
                 {errors.litrosParaAbastecer && <p className="text-sm text-destructive mt-1">{errors.litrosParaAbastecer}</p>}
               </div>
-              
-              {/* O botão padrão já usa a cor primária do tema, não precisa de classe de cor */}
-              <Button type="submit" className="w-full h-12 text-lg" disabled={isLoading}>
-                {isLoading ? 'Buscando...' : 'Encontrar Melhores Postos'}
+              <Button type="submit" className="w-full h-12 text-lg">
+                Encontrar Melhores Postos
               </Button>
 
             </form>
