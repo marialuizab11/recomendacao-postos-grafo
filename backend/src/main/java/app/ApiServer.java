@@ -3,6 +3,7 @@ package app;
 import io.javalin.Javalin;
 import dto.RequisicaoCalculoDTO;
 import data.DataLoader;
+import dto.RespostaCalculoDTO;
 import service.CalculadoraCustoBeneficioService;
 import model.*;
 import io.javalin.http.HttpStatus;
@@ -68,8 +69,9 @@ public class ApiServer {
                     requisicao.getLitrosParaAbastecer(),
                     precoMedio
                 );
+                RespostaCalculoDTO respostaCompleta = new RespostaCalculoDTO(coordsPartida, coordsDestino, resultado);
                 ctx.status(HttpStatus.OK);
-                ctx.json(resultado);
+                ctx.json(respostaCompleta);
                 
             } catch (Exception e) {
                 ctx.status(HttpStatus.BAD_REQUEST);
@@ -77,20 +79,30 @@ public class ApiServer {
             }
         });
         
+        GeocodingService geocodingService = new GeocodingService();
+        
+        app.get("/pega-coordenadas", ctx -> {
+            String endereco = ctx.queryParam("endereco");
+            
+            if (endereco == null || endereco.isBlank()){
+                ctx.status(HttpStatus.BAD_REQUEST).json(Map.of("erro", "O parametro endereco está vazio ou inválido"));
+                return;
+            }
+            
+            Localizacao coordenadas = geocodingService.getCoordenadas(endereco);
+            
+            if(coordenadas != null){
+                ctx.status(HttpStatus.OK).json(coordenadas);                
+            } else {
+                ctx.status(HttpStatus.NOT_FOUND).json(Map.of("erro", "Endereço não encontrado."));
+            }   
+        });
+        
         System.out.println("Iniciando o servidor na porta 7070...");
         app.start(7070);
         System.out.println("Servidor iniciado!");
     }
     
-    /**
-     * Encontra um Posto na nossa lista de dados pelo ID.
-     */
-    private static Localizavel encontrarLocalizavelPorId(String id, List<Posto> postos) {
-        return postos.stream()
-                     .filter(p -> p.getId().equalsIgnoreCase(id))
-                     .findFirst()
-                     .orElse(null);
-    }
 
     /**
      * Cria um grafo simples contendo apenas os postos, com arestas (Ruas)

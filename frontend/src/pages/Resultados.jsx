@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { calcularMelhorRota } from '@/services/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,42 +12,51 @@ const Resultados = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isVisualLoading, setIsVisualLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [resultados, setResultados] = useState([]);
+  const [partidaCoords, setPartidaCoords] = useState(null);
+  const [destinoCoords, setDestinoCoords] = useState(null);
 
-  const resultados = location.state?.resultados || [];
-  const searchData = location.state?.searchData || {}; 
-
+  const searchData = location.state?.searchData;
 
   useEffect(() => {
-    if (!location.state || !location.state.resultados) {
+    if (!searchData) {
       console.log("Nenhum resultado encontrado, voltando para a busca.");
       navigate('/busca');
       return;
     }
-    const timer = setTimeout(() => {
-      setIsVisualLoading(false);
-    }, 2000);
+    
+    const fetchResultados = async () => {
+      try {
+        const respostaCompleta = await calcularMelhorRota(searchData);
 
-    return () => clearTimeout(timer);
-  }, [location.state, navigate]);
+        setResultados(respostaCompleta.recomendacoes);
+        setPartidaCoords(respostaCompleta.partida);
+        setDestinoCoords(respostaCompleta.destino);
+      } catch (error) {
+        console.error("Erro ao buscar recomendações:", error);
+        navigate('/busca', { state: { error: "Não foi possível buscar os resultados." } });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchResultados();
+  }, [searchData, navigate]);
 
   const handleIrParaTrajeto = (postoDaParada) => {
-    const partidaOriginal = resultados.find(res => res.posto.id === searchData.idPartida)?.posto;
-    const destinoOriginal = resultados.find(res => res.posto.id === searchData.idDestino)?.posto;
-
-    // Se não encontrarmos a partida ou destino, não fazemos nada (fallback)
-    if (!partidaOriginal || !destinoOriginal) {
-      alert("Não foi possível encontrar as coordenadas de partida/destino para gerar a rota.");
+    if (!partidaCoords || !destinoCoords) {
+      alert("Coordenadas de partida/destino não encontradas para gerar a rota.");
       return;
     }
 
-    const origemCoords = `${partidaOriginal.localizacao.latitude},${partidaOriginal.localizacao.longitude}`;
-    const destinoCoords = `${destinoOriginal.localizacao.latitude},${destinoOriginal.localizacao.longitude}`;
-    const paradaCoords = `${postoDaParada.localizacao.latitude},${postoDaParada.localizacao.longitude}`;
+    const origem = `${partidaCoords.latitude},${partidaCoords.longitude}`;
+    const destino = `${destinoCoords.latitude},${destinoCoords.longitude}`;
+    const parada = `${postoDaParada.localizacao.latitude},${postoDaParada.localizacao.longitude}`;
 
-    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origemCoords}&destination=${destinoCoords}&waypoints=${paradaCoords}`;
+    // Monta a URL correta com os 3 pontos
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origem}&destination=${destino}&waypoints=${parada}`;
 
-    // Abre o link em uma nova aba
     window.open(googleMapsUrl, '_blank');
   };
 
@@ -57,7 +67,7 @@ const Resultados = () => {
   const melhoresResultados = resultados.slice(0, 4);
   const custoMaisCaro = melhoresResultados.length > 0 ? melhoresResultados[melhoresResultados.length - 1].custoTotal : 0;
 
-  if (isVisualLoading){
+  if (isLoading){
      return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
