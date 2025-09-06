@@ -7,5 +7,6 @@ package model;
 */
 public interface Localizavel {
     String getId();
+
     String getNome();
 }

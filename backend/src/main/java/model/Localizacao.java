@@ -1,12 +1,12 @@
 package model;
 
 /**
- * Representa coordenadas geográficas
+ * Representa coordenadas geográficas.
  */
 public class Localizacao {
     private double latitude;
     private double longitude;
-    
+
     public double getLatitude() {
         return latitude;
     }
