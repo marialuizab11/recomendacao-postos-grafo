@@ -1,15 +1,15 @@
-package model;
+package service;
 
 import model.Grafo;
-import model.Localizavel;
 import model.Rua;
+import model.Veiculo;
 import model.Vertice;
 
 import java.util.*;
 
 public class DijkstraExecutor {
 
-    //Executa o algoritmo de Dijkstra para encontrar o menor caminho de uma origem a um destino.
+    // Executa o algoritmo de Dijkstra para encontrar o menor caminho de uma origem a um destino.
     public ResultadoDijkstra executar(Grafo grafo, Vertice origem, Vertice destino) {
 
         // 1. Ferramentas do Algoritmo
@@ -48,7 +48,8 @@ public class DijkstraExecutor {
                     distancias.put(vizinho, novaDistancia);
                     predecessores.put(vizinho, verticeAtual);
 
-                    // Re-adiciona o vizinho na fila para que sua nova prioridade (distância menor) seja considerada.
+                    // Re-adiciona o vizinho na fila para que sua nova prioridade (distância menor)
+                    // seja considerada.
                     // A PriorityQueue lida com elementos duplicados, mantendo a ordem correta.
                     fila.add(vizinho);
                 }
@@ -88,8 +89,11 @@ public class DijkstraExecutor {
         }
     }
 
-    //Calcula o custo em Reais do trajeto mais curto entre dois vértices.
-    public double calcularMenorCusto(Grafo grafo, Vertice origem, Vertice destino, Veiculo veiculo, double precoCombustivelAtual) {
+    /* 
+     * Calcula o custo em Reais do trajeto mais curto entre dois vértices.
+    */
+    public double calcularMenorCusto(Grafo grafo, Vertice origem, Vertice destino, Veiculo veiculo,
+            double precoCombustivelAtual) {
         // 1. Primeiro, usamos o método principal para encontrar o caminho e a distância.
         ResultadoDijkstra resultado = executar(grafo, origem, destino);
 
@@ -100,7 +104,7 @@ public class DijkstraExecutor {
 
         // 3. Se existe um caminho, calculamos o custo.
         double distanciaKm = resultado.distanciaTotal;
-        double autonomiaKmL = veiculo.getAutomiaKmL();
+        double autonomiaKmL = veiculo.getAutonomiaKmL();
 
         if (autonomiaKmL <= 0) {
             return Double.POSITIVE_INFINITY; // Evita divisão por zero.
