@@ -1,13 +1,7 @@
 package service;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-//import graph.Grafo;
 import model.*;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -17,19 +11,21 @@ public class CalculadoraCustoBeneficioService {
     private final List<Posto> postos;
     private final DijkstraExecutor dijkstraExecutor;
     private final Grafo grafo;
-    
-    public CalculadoraCustoBeneficioService(Grafo grafo, List<Posto> listaPostos){
+
+    public CalculadoraCustoBeneficioService(Grafo grafo, List<Posto> listaPostos) {
         this.grafo = grafo;
         this.dijkstraExecutor = new DijkstraExecutor();
         this.postos = listaPostos;
     }
-    
-    /* Calcula e ordena as melhores opções de abastecimento */
+
+    /* 
+     * Calcula e ordena as melhores opções de abastecimento.
+     */
     public List<OpcaoRecomendada> calcularMelhoresOpcoes(
-            Localizacao partidaCoords, 
-            Localizacao destinoCoords, 
-            Veiculo veiculo, 
-            double litrosParaAbastecer, 
+            Localizacao partidaCoords,
+            Localizacao destinoCoords,
+            Veiculo veiculo,
+            double litrosParaAbastecer,
             double precoMedioCombustivel) {
 
         Vertice verticePartida = grafo.encontrarVerticeMaisProximo(partidaCoords);
@@ -37,7 +33,7 @@ public class CalculadoraCustoBeneficioService {
 
         if (verticePartida == null || verticeDestino == null) {
             System.err.println("Não foi possível encontrar vértices próximos à partida ou destino.");
-            return new ArrayList<>(); 
+            return new ArrayList<>();
         }
 
         List<OpcaoRecomendada> recomendacoes = new ArrayList<>();
