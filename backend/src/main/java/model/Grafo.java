@@ -35,12 +35,15 @@ public class Grafo {
         return adjacencias.getOrDefault(vertice, Collections.emptyList());
     }
 
-    //Retorna todos os vértices presentes no grafo.
+    // Retorna todos os vértices presentes no grafo.
     public Set<Vertice> getVertices() {
         return adjacencias.keySet();
     }
-    
-    /*Encontra o vértice no grafo que está geograficamente mais próximo das coordenadas fornecidas.*/
+
+    /*
+     * Encontra o vértice no grafo que está geograficamente mais próximo das
+     * coordenadas fornecidas.
+     */
     public Vertice encontrarVerticeMaisProximo(Localizacao coordenadas) {
         if (adjacencias.isEmpty()) {
             return null;
@@ -56,8 +59,7 @@ public class Grafo {
                 // Calcula a distância em linha reta entre as coordenadas do usuário e o vértice atual
                 double distancia = ApiServer.calcularDistanciaHaversine(
                         coordenadas.getLatitude(), coordenadas.getLongitude(),
-                        verticeAtual.getLocalizacao().getLatitude(), verticeAtual.getLocalizacao().getLongitude()
-                );
+                        verticeAtual.getLocalizacao().getLatitude(), verticeAtual.getLocalizacao().getLongitude());
 
                 // Se encontrarmos uma distância menor, atualizamos nosso candidato a "mais próximo"
                 if (distancia < menorDistancia) {
@@ -66,6 +68,6 @@ public class Grafo {
                 }
             }
         }
-    return verticeMaisProximo;
-}
+        return verticeMaisProximo;
+    }
 }

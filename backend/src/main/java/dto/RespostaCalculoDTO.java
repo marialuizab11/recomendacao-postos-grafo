@@ -12,7 +12,7 @@ public class RespostaCalculoDTO {
     private final Localizacao partida;
     private final Localizacao destino;
     private final List<OpcaoRecomendada> recomendacoes;
-    
+
     public RespostaCalculoDTO(Localizacao partida, Localizacao destino, List<OpcaoRecomendada> recomendacoes) {
         this.partida = partida;
         this.destino = destino;

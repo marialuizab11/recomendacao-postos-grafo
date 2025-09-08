@@ -5,12 +5,12 @@ package model;
  */
 public class Veiculo {
     double autonomiaKmL;
-    
-    public Veiculo(double autonomiaKmL){
+
+    public Veiculo(double autonomiaKmL) {
         this.autonomiaKmL = autonomiaKmL;
     }
-    
-    public double getAutomiaKmL(){
+
+    public double getAutonomiaKmL() {
         return autonomiaKmL;
     }
 }
