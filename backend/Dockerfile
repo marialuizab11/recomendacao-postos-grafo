@@ -18,7 +18,7 @@ RUN mvn clean package -DskipTests
 
 # --- Estágio 2: Execução ---
 # Usamos uma imagem leve, apenas com o ambiente para rodar Java (JRE)
-FROM openjdk:21-jre-slim
+FROM eclipse-temurin:21-jre
 
 # Define o diretório de trabalho
 WORKDIR /app
