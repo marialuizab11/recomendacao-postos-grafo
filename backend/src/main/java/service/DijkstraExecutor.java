@@ -48,9 +48,7 @@ public class DijkstraExecutor {
                     distancias.put(vizinho, novaDistancia);
                     predecessores.put(vizinho, verticeAtual);
 
-                    // Re-adiciona o vizinho na fila para que sua nova prioridade (distância menor)
-                    // seja considerada.
-                    // A PriorityQueue lida com elementos duplicados, mantendo a ordem correta.
+                    // Re-adiciona o vizinho na fila para que sua nova prioridade (distância menor) seja considerada. A PriorityQueue lida com elementos duplicados, mantendo a ordem correta.
                     fila.add(vizinho);
                 }
             }
