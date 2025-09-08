@@ -22,7 +22,11 @@ const Resultados = () => {
   useEffect(() => {
     if (!searchData) {
       console.log("Nenhum resultado encontrado, voltando para a busca.");
-      navigate('/busca');
+      navigate('/busca', {
+        state: { 
+          error: "Não foi possível conectar ao servidor. O serviço pode estar indisponível." 
+        }
+      });
       return;
     }
     

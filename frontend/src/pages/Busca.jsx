@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 
 import { Badge } from '@/components/ui/badge';
@@ -10,8 +10,12 @@ import { Label } from '@/components/ui/label';
 import { Fuel, Search, Settings, Car, Droplets, Navigation, MapPin } from 'lucide-react'; 
 import '../App.css';
 
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
+
 const Busca = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { userData, isConfigured } = useUser();
 
   const [formData, setFormData] = useState({
@@ -21,6 +25,14 @@ const Busca = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState(null);
+
+  useEffect(() => {
+    if (location.state?.error) {
+      setApiError(location.state.error); 
+      navigate('.', { replace: true, state: {} });
+    }
+  }, [location.state, navigate]);
 
   useEffect(() => {
     if (!isConfigured) {
@@ -55,6 +67,7 @@ const Busca = () => {
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    setApiError(null);
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: null }));
     }
@@ -107,6 +120,15 @@ const Busca = () => {
       </header>
       
       <main className="max-w-xl mx-auto px-4 py-4">
+
+        {apiError && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-10 w-10" />
+            <AlertDescription className="text-bold text-black">
+              {apiError}
+            </AlertDescription>
+          </Alert>
+        )}
         
         {/* Card de Info do Veículo */}
         <Card className="mb-8 bg-secondary border-secondary">
