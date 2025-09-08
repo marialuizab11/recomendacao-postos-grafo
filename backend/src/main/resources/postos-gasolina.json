@@ -31,7 +31,7 @@
   },
   {
     "id": "P04",
-    "nome": "Posto Santa Emília",
+    "nome": "Posto RW",
     "endereco": "Av. Deolinda Silvestre Valença",
     "localizacao": {
       "latitude": -8.90742,
@@ -88,5 +88,115 @@
       "longitude": -36.48306
     },
     "precoGasolina": 6.05
+  },
+  {
+    "id": "P10",
+    "nome": "Posto Gueiros",
+    "endereco": "R. Renato Pantaleao",
+    "localizacao": {
+      "latitude": -8.87728,
+      "longitude": -36.50039
+    },
+    "precoGasolina": 5.92
+  },
+  {
+    "id": "P11",
+    "nome": "Posto Petrobras",
+    "endereco": "Av. Pres. Getúlio Vargas",
+    "localizacao": {
+      "latitude": -8.88817,
+      "longitude": -36.48561
+    },
+    "precoGasolina": 5.96
+  },
+  {
+    "id": "P12",
+    "nome": "Posto Rui Barbosa",
+    "endereco": "Av. Rui Barbosa",
+    "localizacao": {
+      "latitude": -8.88605,
+      "longitude": -36.48572
+    },
+    "precoGasolina": 5.72
+  },
+  {
+    "id": "P13",
+    "nome": "Posto BR",
+    "endereco": "Av. Rui Barbosa",
+    "localizacao": {
+      "latitude": -8.88618,
+      "longitude": -36.48601
+    },
+    "precoGasolina": 5.96
+  },
+  {
+    "id": "P14",
+    "nome": "Posto Shell Magano",
+    "endereco": "Av. Sátiro Ivo",
+    "localizacao": {
+      "latitude": -8.88465,
+      "longitude": -36.50237
+    },
+    "precoGasolina": 5.73
+  },
+  {
+    "id": "P15",
+    "nome": "Posto Chico Branco",
+    "endereco": "Av. Deolinda Silvestre Valença",
+    "localizacao": {
+      "latitude": -8.90566,
+      "longitude": -36.48650
+    },
+    "precoGasolina": 5.99
+  },
+  {
+    "id": "P16",
+    "nome": "Posto Auto Posto",
+    "endereco": "BR-424",
+    "localizacao": {
+      "latitude": -8.90942,
+      "longitude": -36.48774
+    },
+    "precoGasolina": 5.91
+  },
+  {
+    "id": "P17",
+    "nome": "Posto Petrobras Jatoba",
+    "endereco": "Av. Mello Peixoto",
+    "localizacao": {
+      "latitude": -8.89364,
+      "longitude": -36.49582
+    },
+    "precoGasolina": 5.75
+  },
+  {
+    "id": "P18",
+    "nome": "Posto Ipiranga Domingo",
+    "endereco": "BR-423",
+    "localizacao": {
+      "latitude": -8.87918,
+      "longitude": -36.48564
+    },
+    "precoGasolina": 5.69
+  },
+  {
+    "id": "P19",
+    "nome": "Posto Neto Chiquinho",
+    "endereco": "R. Sebastião Paes de Melo",
+    "localizacao": {
+      "latitude": -8.89075,
+      "longitude": -36.45360
+    },
+    "precoGasolina": 5.99
+  },
+  {
+    "id": "P20",
+    "nome": "Posto Galego Barros",
+    "endereco": "BR-424",
+    "localizacao": {
+      "latitude": -8.91187,
+      "longitude": -36.48823
+    },
+    "precoGasolina": 5.94
   }
 ]
